@@ -1,0 +1,13 @@
+.graf {
+  background-color: white;
+}
+.border-unir{
+  --bs-border-opacity: 1;
+  border-color: #0098cd !important;
+}
+.titulo-azul{
+  color: #0098cd;
+}
+body{
+  background-color: #EEEEEE;
+}
