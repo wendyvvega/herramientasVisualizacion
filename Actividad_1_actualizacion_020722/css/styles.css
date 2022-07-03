@@ -22,3 +22,14 @@ body{
 .bold{
   font-weight: bold;
 }
+
+.titulo {
+  font-size: 14pt;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.etiquetas{
+  font-size:12px;
+  color:#c0c0c0;
+}

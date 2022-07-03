@@ -106,9 +106,9 @@ function procesarDatosJSON() {
     obj.MC_C              = '#FF5F0A';
     obj.MORENA_C          = '#961906';
     obj.PAN_C             = '#015CA9';
-    obj.PRD_C             = '#FFCE08';
-    obj.PRI_C             = '#F43409';
-    obj.PT_C              = '#E32E25';
+    obj.PRD_C             = '#FBBC33';
+    obj.PRI_C             = '#268809';
+    obj.PT_C              = '#D12C2C';
     obj.PVEM_C            = '#88C544';    
     obj.CO_PAN_PRI_PRD_C  = '#756853';    
     obj.CO_PAN_PRI_C      = '#756853';    

@@ -28,10 +28,8 @@ function arrayDatosPart(partido, votos, color){
   datosBarPart.push(numeros);
 }
 
-
-
 // Grafica para los partidos Bar
-function loadBarGraphicsPart(datosBar) {
+function loadBarGraphicsPart(datosBar, partido) {
   // limpiamos el contenedor de la grafica
   d3.select('#grafPart').html("");
  
@@ -73,6 +71,8 @@ function loadBarGraphicsPart(datosBar) {
     .append("g")
     .attr("transform", `translate(${margins.left}, ${margins.top})`);
 
+  const etiquetas = g.append("g")
+
   // Carga de Datos
   datosBar.pop();///  Eliminamos la última fila que es la de totales que no utilizamos en esta gráfica
   data = datosBar;
@@ -81,13 +81,12 @@ function loadBarGraphicsPart(datosBar) {
   const xAccessor = (d) => d.distrito;
 
   // ordenar ascendente
-  //data.sort((a, b) => yAccessor(b) - yAccessor(a))
+  data.sort((a, b) => yAccessor(b) - yAccessor(a))
   // Escaladores
   const y = d3
     .scaleLinear()
     .domain([0, d3.max(data, yAccessor)])
     .range([alto, 0]);
-
 
   const x = d3
     .scaleBand()
@@ -96,38 +95,50 @@ function loadBarGraphicsPart(datosBar) {
     .paddingOuter(0.2)
     .paddingInner(0.1);
 
-
   //Rectángulos (Elementos)
-  const rect = g
-    .selectAll("rect")
-    .data(data)
+  const rect = g.selectAll("rect").data(data, xAccessor)
+  rect
     .enter()
     .append("rect")
+    .attr('x', (d) => x(xAccessor(d)))
+    .attr('y', (d) => y(0))
+    .attr('width', x.bandwidth())
+    .attr('height', (d) => 0)
+    .attr('fill', 'white')
+    .merge(rect)    
+    .transition()
+    .duration(900)
     .attr("x", (d) => x(xAccessor(d)))
     .attr("y", (d) => y(yAccessor(d)))
     .attr("width", x.bandwidth())
     .attr("height", (d) => alto - y(yAccessor(d)))
-    .attr("fill", function (d) {
-      return d.color;
-    });
-    
-  // aplicar texto a cada barra en la parte de arriba
-  const et = g
-    .selectAll("text")
-    .data(data)
-    .enter()
-    .append("text")
-    .attr("style", "font-size:12px;  color:#c0c0c0")
-    .attr("x", (d) => x(xAccessor(d)) + x.bandwidth() / 2)
-    .attr("y", (d) => y(yAccessor(d)))
-    .text(yAccessor)
-    .attr("text-anchor", "middle");
+    .attr("fill", (d) => d.color)
+    .delay((d,i) => i*100)
+
+    //etiquetas
+    const et = etiquetas.selectAll("text").data(data)
+    et.enter()
+      .append("text")
+      .attr("x", (d) => x(xAccessor(d)) + x.bandwidth() / 2)
+      .attr("y", (d) => y(0))
+      .attr("style", "font-size:12px;  color:#c0c0c0")
+      .merge(et)
+      .transition()
+      .duration(900)
+      .attr("x", (d) => x(xAccessor(d)) + x.bandwidth() / 2)
+      .attr("y", (d) => y(yAccessor(d)) - 5)
+      .text(yAccessor)
+      .attr("text-anchor", "middle")
+      .delay((d,i) => i*100)
 
   // Títulos
-  g.append("text")
-    .attr("x", ancho / 2)
-    .attr("y", -15)
-    .classed("titulo", true);
+  const titulo = g
+    .append("text")
+    .attr("x", ancho/2)
+    .attr("y", - 25)
+    .classed("titulo", true)
+    .text(`Votos emitidos por Distrio Local para el Partido Político: ${partido}`)
+
   // Ejes
   const xAxis = d3.axisBottom(x);
   const yAxis = d3.axisLeft(y).ticks(8);

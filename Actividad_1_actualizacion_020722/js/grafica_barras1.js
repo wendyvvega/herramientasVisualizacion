@@ -1,5 +1,6 @@
 //Grafica de barras que presenta el total de votos por partido 
 const graf1 = d3.select("#graf-1")
+
 // almacena el objeto chart.js
 let pieChart;
 // array que almacenara los registros procesados del archivo JSON
@@ -104,8 +105,6 @@ function selectOptionDist(distrito){
   loadBarGraphics(datosBarDist, distrito);
   // dibujar la grafica de pie
   graficaPie(datosPie)
-
-
 }
 
 // armar el array con los datos para graficar
@@ -115,7 +114,7 @@ function arrayDatosDist(partido, votos, color){
   numeros.votos = votos;
   numeros.color = color;
   datosBarDist.push(numeros);
-  }
+}
 
 // LLenamos el select con los option de los nombres de Distritos
 function cargarSelectDist(distritos){
@@ -133,7 +132,6 @@ function cargarSelectDist(distritos){
 // Grafica para los distritos Bar
 const loadBarGraphics =  (datosBar, entidad) => {
   console.log(datosBar);
- 
   
   // limpiamos el contenedor de la grafica
   d3.select('#graf').html("")  
@@ -261,6 +259,7 @@ const loadBarGraphics =  (datosBar, entidad) => {
     .attr("y", -15)    
     .classed("titulo", true)
   // Ejes
+
   const xAxis = d3.axisBottom(x)
   const yAxis = d3.axisLeft(y).ticks(8)
 
@@ -279,8 +278,6 @@ const loadBarGraphics =  (datosBar, entidad) => {
       .text("")
   
   const yAxisGroup = g.append("g").classed("axis", true).call(yAxis)
-  
-  
 }
 // Grafica para los distritos Pie
 function graficaPie(numeros){
