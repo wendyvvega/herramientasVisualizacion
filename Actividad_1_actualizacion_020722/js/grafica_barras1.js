@@ -17,7 +17,6 @@ $( document ).ready(function() {
   // Funcion que regresa una promesa 
   procesarDatosJSON()
     .then( resp =>{
-      console.log(distritos);
       cargarSelectDist(distritos);
       selectOptionDist('RINCON DE ROMOS I');
       selectOptionPart('PAN')
@@ -52,7 +51,8 @@ let Tot_PAN = 0;
 function selectOptionDist(distrito){
   // limpiar array
   datosBarDist = [];  
-  datosPie = [];    
+  datosPie = [];
+  totales = []
   $.each( distritos, function( key, val ) {
     if( distrito == val.DISTRITO_LOCAL ){  
       arrayDatosDist('PAN', val.PAN, val.PAN_C);
@@ -77,16 +77,19 @@ function selectOptionDist(distrito){
       datosPie.push(
         {
           label: "Votos Acumulados %",
-          value: ((votosAcu/ConteoFinal)*100).toFixed(1)
+          value: parseInt(((votosAcu/ConteoFinal)*100).toFixed(1)),
+          color: '#429867'
           
         },
         {
           label: "No registradas",
-          value: ((NO_REGISTRADOS/ConteoFinal)*100).toFixed(1)
+          value: parseInt(((NO_REGISTRADOS/ConteoFinal)*100).toFixed(1)),
+          color: '#fab243'
         },
         {
           label: "Votos Nulos",
-          value: ((NULOS/ConteoFinal)*100).toFixed(1)
+          value: parseInt(((NULOS/ConteoFinal)*100).toFixed(1)),
+          color: '#e02130'
         } 
       )
     }
@@ -95,16 +98,29 @@ function selectOptionDist(distrito){
   //dar formato a las cantidades
   votosAcu = votosAcu.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   ConteoFinal = ConteoFinal.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // asignar las cantidades a las etiquetas div correspondientes
-  $(".votosAcu").html( votosAcu );
-  $(".noReg").html( NO_REGISTRADOS );
-  $(".nulos").html( NULOS );
-  $(".totVotos").html( ConteoFinal );
+  totales.push(
+    {
+      label: "Votos acumulados",
+      value: votosAcu
+    },
+    {
+      label: "No registrados",
+      value: NO_REGISTRADOS
+    },
+    {
+      label: "Votos nulos",
+      value: NULOS
+    },
+    {
+      label: "Total de votos",
+      value: ConteoFinal
+    }
 
+  )
   // dibujar la grafica de barras
   loadBarGraphics(datosBarDist, distrito);
   // dibujar la grafica de pie
-  graficaPie(datosPie)
+  graficaPie(datosPie, totales, distrito)
 }
 
 // armar el array con los datos para graficar
@@ -131,7 +147,6 @@ function cargarSelectDist(distritos){
  
 // Grafica para los distritos Bar
 const loadBarGraphics =  (datosBar, entidad) => {
-  console.log(datosBar);
   
   // limpiamos el contenedor de la grafica
   d3.select('#graf').html("")  
@@ -279,80 +294,5 @@ const loadBarGraphics =  (datosBar, entidad) => {
   
   const yAxisGroup = g.append("g").classed("axis", true).call(yAxis)
 }
-// Grafica para los distritos Pie
-function graficaPie(numeros){
-  // si ya esta la grafica destruirla para generar otro grafico
-  if(pieChart != undefined){
-    pieChart.destroy();
-  }
-
-  var labels2 = [ "Votos Acumulados","No registradas","Votos Nulos" ];
- 
-  var oilCanvas = document.getElementById("pie");
-  var oilData = {
-      labels: labels2,
-      datasets: [
-        {
-          data: numeros,
-          backgroundColor: [
-              "#6AC1C4",
-              "#AF5FAE",
-              "#F43409", 
-          ],
-        
-        }
-        
-      ],
-           
-  };
-
-  pieChart = new Chart(oilCanvas, {
-    type: 'pie',
-    data: oilData,
-    options: { 
-       
-      plugins: {  
-        tooltip: { 
-          usePointStyle: true,
-          callbacks: {
-              labelPointStyle: function(context) {
-                return {
-                    pointStyle: 'triangle',
-                    rotation: 0
-                };
-              },
-               
-          }
-        },
-        title: {
-          display: true,
-          font: {
-            size: 18,
-          }, 
-          text: ''
-        },
-        legend: {
-            display: true, 
-            align: 'start',
-            position: 'top',
-            labels: {
-              usePointStyle:true,
-              color: 'rgb(0,0, 12)',
-              font: {
-                size: 12,
-              },
-              pointStyle: 'circle'              
-            } 
-        },
-      },
-      animations: {
-        animation : true,
-        animationEasing : "easeOutBounce",
-        percentageInnerCutout: 60,
-        segmentShowStroke : true
-      }
-    }
-  });
-} 
  
 

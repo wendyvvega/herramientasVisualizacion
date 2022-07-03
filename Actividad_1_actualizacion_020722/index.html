@@ -91,30 +91,31 @@
               </div>
             </div>
           </div>
-          <div class="col-4 "> <h6>Resumen de la votación</h6>
-            <!-- <div id="graf-pastel" class="shadow">  </div> -->
-          
-            <div style="background-color: rgb(255, 255, 255);   height:95%; " class="row border-unir">
-              
-              
-           
-                <table  height="50" class="table">
-                  <tr class="text-center">
-                    <td width="120">Votos Acumulados</td>
-                    <td>No registradas</td>
-                    <td>Votos Nulos</td>
-                    <td>Total de Votos</td>
-                  </tr>
-                  <tr class="text-center">
-                    <td><span class="votosAcu bold  "></span></td>
-                    <td><span class="noReg bold fs-5"></span></td>
-                    <td><span class="nulos bold fs-5"></span></td>
-                    <td><div class="totVotos text-center mt-1 fs-4 textRosa bold"></div>  </td>
-                  </tr>
-                </table>
-
-                <canvas id="pie" width="300" height="300"></canvas> 
+          <div class="col-4 shadow graf mt-2">
+            <div class='titulo mt-2'>Resumen de votos del Distrito:</div>
+            <div class='titulo' id='distrito'></div>
+            <div class="row">
+              <div id="pie" width="100%" style="padding:0px;"></div> 
             </div>
+            <div class="row mt-2">
+              <table class="table table-hover table-stripped" width="100%">
+                <thead>
+                  <tr>
+                    <th style="color:#429867;text-align: center;">Votos acumulados</th>
+                    <th style="color:#fab243;text-align: center;">No registrados</th>
+                    <th style="color:#e02130;text-align: center;">Votos nulos</th>
+                    <th style="text-align: center;">Total de votos</th>
+                  </tr>
+                </thead>
+                <tbody id='votos'>
+                  <td style="text-align: center;"><span id="votosAcu"></span></td>
+                  <td style="text-align: center;"><span id="noReg"></span></td>
+                  <td style="text-align: center;"><span id="nulos"></span></td>
+                  <td style="text-align: center;"><div id="totVotos"></div>  </td>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </div>
       </div>

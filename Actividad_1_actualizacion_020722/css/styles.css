@@ -27,9 +27,23 @@ body{
   font-size: 14pt;
   font-weight: bold;
   text-anchor: middle;
+  text-align: center;
 }
 
 .etiquetas{
   font-size:12px;
   color:#c0c0c0;
+}
+
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.arc path {
+  stroke: #fff;
+}
+
+.center {
+  text-align: center;
 }
