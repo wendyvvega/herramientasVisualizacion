@@ -1,5 +1,6 @@
 //Grafica de barras que presenta el total de votos por partido 
 const graf1 = d3.select("#graf-1")
+const orden = d3.select("#orden-filtro")
 
 // almacena el objeto chart.js
 let pieChart;
@@ -12,6 +13,9 @@ let obj = {};
 const anchoTotal1 = +graf1.style("width").slice(0, -2)
 const altoTotal1 = anchoTotal1 * 9 / 16
 
+var currentOrden = 'option1'
+var partidoSelected = null
+
 
 $( document ).ready(function() {
   // Funcion que regresa una promesa 
@@ -19,7 +23,8 @@ $( document ).ready(function() {
     .then( resp =>{
       cargarSelectDist(distritos);
       selectOptionDist('RINCON DE ROMOS I');
-      selectOptionPart('PAN')
+      selectOptionPart('PAN', 'option1')
+      partidoSelected = 'PAN'
     }).catch( (error) =>{
       console.log(error);
     });
@@ -31,9 +36,14 @@ $( document ).ready(function() {
   // evento al seleccionar un partido
   $('#filtro-partidos').on('change', function (e) {
     var valueSelected = this.value;
-    selectOptionPart(valueSelected)
+    partidoSelected = valueSelected
+    selectOptionPart(partidoSelected, currentOrden)
   });
-  
+  // evento para order grafica
+  $('input[type=radio][name=orden]').change(function() {
+    currentOrden = this.value
+    selectOptionPart(partidoSelected, this.value)
+  });
 });
 
 // variables para almacenar los datos del distrito seleccionado

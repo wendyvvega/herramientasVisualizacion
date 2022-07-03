@@ -3,7 +3,7 @@
 */
 
 // Funcion al seleccionar una opcion del select para Partidos
-function selectOptionPart(partido){
+function selectOptionPart(partido, ordenSelected){
   // limpiar array
   datosBarPart = [];
   let color = partido + '_C'
@@ -16,7 +16,7 @@ function selectOptionPart(partido){
   }); 
   // dibujar la grafica de barras
   
-  loadBarGraphicsPart(datosBarPart, partido);
+  loadBarGraphicsPart(datosBarPart, partido, ordenSelected);
 }
 
 // armar el array con los datos para graficar
@@ -29,7 +29,7 @@ function arrayDatosPart(partido, votos, color){
 }
 
 // Grafica para los partidos Bar
-function loadBarGraphicsPart(datosBar, partido) {
+function loadBarGraphicsPart(datosBar, partido, ordenSelected) {
   // limpiamos el contenedor de la grafica
   d3.select('#grafPart').html("");
  
@@ -80,8 +80,19 @@ function loadBarGraphicsPart(datosBar, partido) {
   const yAccessor = (d) => d.votos;
   const xAccessor = (d) => d.distrito;
 
-  // ordenar ascendente
-  data.sort((a, b) => yAccessor(b) - yAccessor(a))
+  //ordenar
+  switch(ordenSelected){
+    case 'option1':
+      //ya está en orden por distrito
+      break;
+    case 'option2':
+      data.sort((a, b) => yAccessor(b) - yAccessor(a))
+      break;
+    case 'option3':
+      data.sort((a, b) => yAccessor(a) - yAccessor(b))
+      break;
+  }
+
   // Escaladores
   const y = d3
     .scaleLinear()
