@@ -1,0 +1,45 @@
+.graf {
+  background-color: white;
+}
+.border-unir{
+  --bs-border-opacity: 1;
+  border-color: #0098cd !important;
+}
+.titulo-azul{
+  color: #0098cd;
+}
+body{
+  background-color: #EEEEEE;
+}
+.textRosa{
+  color: rgb(243, 104, 224);
+}
+.textGris{
+  color: #707070;
+}
+.textAzul{
+  color: rgb(44, 80, 240);
+}
+.bold{
+  font-weight: bold;
+}
+.titulo {
+  font-size: 14pt;
+  font-weight: bold;
+  text-anchor: middle;
+  text-align: center;
+}
+.etiquetas{
+  font-size:12px;
+  color:#c0c0c0;
+}
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+.arc path {
+  stroke: #fff;
+}
+.center {
+  text-align: center;
+}
